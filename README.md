@@ -52,6 +52,14 @@ An automated, intelligent pipeline built with **n8n** to capture, normalize, cla
 
 ### 8. Sales Notification
 - **Telegram Node:** Pushes a real-time notification to the sales channel. The message includes a quick breakdown: Source, Service Category, Intent Score, and the one-line Summary.
+🤖 Telegram Notification Integration:
+Created a dedicated bot via BotFather to obtain the API Token (TELEGRAM_BOT_TOKEN).
+
+Retrieved the target destination ID (TELEGRAM_CHAT_ID) using @userinfobot to ensure direct routing of alerts.
+
+Configured the n8n Telegram Node to securely send real-time structured summaries (Source, Intent Score, and Lead Summary) upon successful lead insertion.
+
+
 
 ---
 
