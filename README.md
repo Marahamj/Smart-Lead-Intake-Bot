@@ -52,6 +52,7 @@ An automated, intelligent pipeline built with **n8n** to capture, normalize, cla
 
 ### 8. Sales Notification
 - **Telegram Node:** Pushes a real-time notification to the sales channel. The message includes a quick breakdown: Source, Service Category, Intent Score, and the one-line Summary.
+- 
 🤖 Telegram Notification Integration:
 Created a dedicated bot via BotFather to obtain the API Token (TELEGRAM_BOT_TOKEN).
 
@@ -70,12 +71,13 @@ Gmail Trigger ──► Edit Fields1 ──────────┘          
                                                                                     ┌── true ────────┴── Duplicate lead - stopped
                                                                                     │
                                                                                     |
+                                                                                    
                                                                                     └── false ──► Message a model ──┬──► Insert rows in a table
                                                                               
                                                                                     
                                                                                                                                                   └──► Append row in sheet ──► Send a text message
 
-# 🤖 Smart Lead Intake Bot
+
 ## 🛠️ Tech Stack
 
 - **Automation Engine:** [n8n](https://n8n.io/)
