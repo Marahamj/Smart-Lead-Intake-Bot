@@ -61,8 +61,11 @@ Webhook ──► Edit Fields ──► Split Out ──┐
 Gmail Trigger ──► Edit Fields1 ──────────┘                                                          │
                                                                                     ┌── true ────────┴── Duplicate lead - stopped
                                                                                     │
+                                                                                    |
                                                                                     └── false ──► Message a model ──┬──► Insert rows in a table
-                                                                                                                                      └──► Append row in sheet ──► Send a text message
+                                                                              
+                                                                                    
+                                                                                                                                                  └──► Append row in sheet ──► Send a text message
 
 # 🤖 Smart Lead Intake Bot
 ## 🛠️ Tech Stack
