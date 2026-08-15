@@ -1,4 +1,4 @@
-# Smart-Lead-Intake-Bot
+#  🤖 Smart-Lead-Intake-Bot
 
 
 An automated, intelligent pipeline built with **n8n** to capture, normalize, classify, and store leads from multiple channels. This system leverages AI for intent scoring and implements strict data deduplication to ensure a clean, actionable database for the sales team.
@@ -53,28 +53,26 @@ An automated, intelligent pipeline built with **n8n** to capture, normalize, cla
 ### 8. Sales Notification
 - **Telegram Node:** Pushes a real-time notification to the sales channel. The message includes a quick breakdown: Source, Service Category, Intent Score, and the one-line Summary.
 - 
-🤖 Telegram Notification Integration:
-Created a dedicated bot via BotFather to obtain the API Token (TELEGRAM_BOT_TOKEN).
+🤖**Telegram Notification Integration:**
+  Created a dedicated bot via BotFather to obtain the API Token (TELEGRAM_BOT_TOKEN).
 
-Retrieved the target destination ID (TELEGRAM_CHAT_ID) using @userinfobot to ensure direct routing of alerts.
 
-Configured the n8n Telegram Node to securely send real-time structured summaries (Source, Intent Score, and Lead Summary) upon successful lead insertion.
+  Retrieved the target destination ID (TELEGRAM_CHAT_ID) using @userinfobot to ensure direct routing of alerts.
+ 
+
+  Configured the n8n Telegram Node to securely send real-time structured summaries (Source, Intent Score, and Lead Summary) upon successful lead insertion.
 
 
 
 ---
 
-workflow n8n:
+**workflow n8n:**
 Webhook ──► Edit Fields ──► Split Out ──┐
                                          ├──► Merge ──► Code in Python ──► Execute a SQL query ──► If
 Gmail Trigger ──► Edit Fields1 ──────────┘                                                          │
                                                                                     ┌── true ────────┴── Duplicate lead - stopped
                                                                                     │
-                                                                                    |
-                                                                                    
                                                                                     └── false ──► Message a model ──┬──► Insert rows in a table
-                                                                              
-                                                                                    
                                                                                                                                                   └──► Append row in sheet ──► Send a text message
 
 
@@ -89,5 +87,12 @@ Gmail Trigger ──► Edit Fields1 ──────────┘          
 ## 📂 Repository Structure
 
 - `workflow-export.json`: The raw n8n workflow configuration file. (Import this directly into your n8n instance).
+- 
 - `schema.sql`: The PostgreSQL table creation script.
 - `README.md`: Project documentation.
+
+
+
+
+
+
