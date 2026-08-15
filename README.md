@@ -84,16 +84,14 @@ Gmail Trigger ──► Edit Fields1 ──────────┘          
 - **Data Processing:** Python
 - **Integrations:** Google Sheets API, Gmail API, Telegram Bot API
 
-## 📂 Repository Structure
 
-- `workflow-export.json`: The raw n8n workflow configuration file. (Import this directly into your n8n instance).
-- 
-- `schema.sql`: The PostgreSQL table creation script.
-- `README.md`: Project documentation.
+## 📸 Workflow Visualization
+
+Here is the visual overview of the Smart Lead Intake Bot pipeline in n8n:
+
+![n8n Workflow Diagram](workflow-diagram.png)
 
 
-**workflow canva**
-<img width="1631" height="307" alt="image" src="https://github.com/user-attachments/assets/e5377ca5-3f8f-404b-af59-82117e3e5f31" />
 
 
 
