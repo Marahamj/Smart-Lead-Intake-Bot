@@ -1,0 +1,845 @@
+{
+  "name": "p1 _ smart lead intake bot",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f741fb80-ae66-4f75-b5c9-478300f4d19e",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -3168,
+        -720
+      ],
+      "id": "3fd8ead6-71db-4a0e-89f0-0a113fff11de",
+      "name": "Webhook",
+      "webhookId": "f741fb80-ae66-4f75-b5c9-478300f4d19e"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "filters": {
+          "includeDrafts": false,
+          "readStatus": "unread"
+        }
+      },
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -3120,
+        -512
+      ],
+      "id": "d902f212-ff82-4670-91f5-a3f4141a7bb6",
+      "name": "Gmail Trigger",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "TD75c7P7AeZnepgg",
+          "name": "Gmail account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "646aec64-e05f-40f7-bd1a-7c1fbd686a09",
+              "name": "name",
+              "value": "={{ $json.body.name || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "f1fd695f-2e79-49c4-8629-addf32012f54",
+              "name": "=email",
+              "value": "={{ $json.body.email || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "9dd51712-4412-43d0-890f-8dc3d5a42608",
+              "name": "=phone",
+              "value": "={{ $json.body.phone || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "c1364381-6d84-4d3f-ac83-aa93ee95f00d",
+              "name": "company",
+              "value": "={{ $json.body.company || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "62ff8412-4380-48f3-bf59-b8a16a779be3",
+              "name": "service_interest",
+              "value": "={{ $json.body.service_interest || $json.body.service_requested || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "59803a9b-8242-4da5-9a04-2ef93d4bf38d",
+              "name": "message",
+              "value": "={{ $json.body.message || \"\" }}",
+              "type": "string"
+            },
+            {
+              "id": "14248bb6-6db6-4fbd-aa0c-c2f8b1d1246b",
+              "name": "source",
+              "value": "\"webhock\"",
+              "type": "string"
+            },
+            {
+              "id": "c7f7d8b7-e305-40a4-91c2-b158d780125b",
+              "name": "received_at",
+              "value": "={{ $json.body.timestamp || $now }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -2912,
+        -720
+      ],
+      "id": "1bb9ba14-7313-4fcd-850b-cdc131df270a",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "465720f5-fda7-490f-abbf-768767fa0df6",
+              "name": "name",
+              "value": "={{ $json.snippet.split('My name is ')[1].split(' from')[0] }}",
+              "type": "string"
+            },
+            {
+              "id": "cec19e24-2f23-4899-8114-940dd1c3d380",
+              "name": "email",
+              "value": "={{ $json.snippet.extractEmail() }}",
+              "type": "string"
+            },
+            {
+              "id": "22549372-0e28-4ec8-942f-3dc6170e313f",
+              "name": "phone",
+              "value": "\"\"",
+              "type": "string"
+            },
+            {
+              "id": "19671d91-5ebc-4f0a-a099-fa8f8d3c6deb",
+              "name": "company",
+              "value": "={{ $json.snippet.split('from ')[1].split('.')[0].trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "cd7ac115-e420-4b42-9b04-1327aa42e81d",
+              "name": "service_interest",
+              "value": "={{ $json.snippet.split('nterested in your ')[1].split('.')[0].replace('&amp;', '&').trim() }}",
+              "type": "string"
+            },
+            {
+              "id": "8e215f9e-b9ec-4e4b-a43a-4f4b7f84212a",
+              "name": "message",
+              "value": "={{ $json.snippet }}",
+              "type": "string"
+            },
+            {
+              "id": "4229f4d3-a058-4302-a7a5-9da6d50f8942",
+              "name": "source",
+              "value": "email",
+              "type": "string"
+            },
+            {
+              "id": "c2035511-a69f-42a1-9191-d343a4efc856",
+              "name": "received_at",
+              "value": "={{ $json.date || $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -2896,
+        -512
+      ],
+      "id": "fcd25862-fb12-4cac-b43d-e575832b77a3",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -2448,
+        -624
+      ],
+      "id": "72261de6-5619-4a3f-94a4-367680b6e038",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT EXISTS (\n    SELECT 1 \n    FROM \"Smart-Lead-Bot\"\n    WHERE LOWER(TRIM(email)) = LOWER(TRIM('{{ $json.email }}'))\n      AND received_at >= NOW() - INTERVAL '30 days'\n) AS is_duplicate;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        -2000,
+        -624
+      ],
+      "id": "170e36ca-3f36-4774-83ef-83cfc6213d5f",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "QvdS6c7Q275MfUit",
+          "name": "Postgres account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0e51e11b-7bb5-4214-bbc9-68992e2c1389",
+              "leftValue": "={{ $json.is_duplicate }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1792,
+        -624
+      ],
+      "id": "e2b5a2ee-81a3-48c5-ac59-254d9ed4126d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Duplicate lead - stopped"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        -1520,
+        -880
+      ],
+      "id": "4ac116d1-933e-4d5b-97c9-f25b5b6d00d1",
+      "name": "Duplicate lead - stopped"
+    },
+    {
+      "parameters": {
+        "chatId": "8602358226",
+        "text": "={{ $json.language == 'Arabic' || $json.language == 'AR' ? '🚨 *طلب جديد (Lead Intake)*' : '🚨 *New Lead Intake*' }}\n\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '👤 *الاسم:*' : '👤 *Name:*' }} {{ $json.name }}\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '📧 *الإيميل:*' : '📧 *Email:*' }} {{ $json.email }}\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '📱 *الهاتف:*' : '📱 *Phone:*' }} {{ $json.phone }}\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '🏢 *الشركة:*' : '🏢 *Company:*' }} {{ $json.company }}\n\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '📌 *التصنيف:*' : '📌 *Category:*' }} {{ $json.service_category }}\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '🔥 *نسبة الاهتمام:*' : '🔥 *Intent Score:*' }} {{ $json.intent_score }}\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '🌐 *اللغة:*' : '🌐 *Language:*' }} {{ $json.language }}\n\n{{ $json.language == 'Arabic' || $json.language == 'AR' ? '📝 *الملخص:*' : '📝 *Summary:*' }}\n{{ $json.summary }}",
+        "additionalFields": {
+          "appendAttribution": false,
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        -928,
+        -528
+      ],
+      "id": "ebe21647-aa5c-47d2-8848-8011745be6b7",
+      "name": "Send a text message",
+      "webhookId": "fd070f2b-110f-454a-a467-c9f3bb73994f",
+      "credentials": {
+        "telegramApi": {
+          "id": "eDHfp5Fus2EzDaav",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -2704,
+        -704
+      ],
+      "id": "f1f89622-32c1-4388-a4ec-cfbd446dd34a",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "17R9jml50g8MUbzpPAXQlzktD3NR1OGzawFQqL_y_aOs",
+          "mode": "list",
+          "cachedResultName": "Smart lead Bot",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17R9jml50g8MUbzpPAXQlzktD3NR1OGzawFQqL_y_aOs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "الورقة1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/17R9jml50g8MUbzpPAXQlzktD3NR1OGzawFQqL_y_aOs/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "phone": "={{ $('Code in Python').item.json.phone }}",
+            "company": "={{ $('Code in Python').item.json.company }}",
+            "service_interest": "={{ $('Code in Python').item.json.service_interest }}",
+            "message": "={{ $('Code in Python').item.json.message }}",
+            "received_at": "={{ $node[\"Merge\"].json.timestamp ||  $now.toFormat('yyyy-MM-dd') }}",
+            "summary": "={{ JSON.parse($json.content.parts[0].text).summary }}",
+            "service_category": "={{ JSON.parse($json.content.parts[0].text).service_category }}",
+            "intent_score": "={{ JSON.parse($json.content.parts[0].text).intent_score }}",
+            "language": "={{ JSON.parse($json.content.parts[0].text).language }}",
+            "name": "={{ $('Code in Python').item.json.name }}",
+            "email": "={{ $('Code in Python').item.json.email }}",
+            "source": "={{ $('Code in Python').item.json.source }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "service_interest",
+              "displayName": "service_interest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "service_category",
+              "displayName": "service_category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "intent_score",
+              "displayName": "intent_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "language",
+              "displayName": "language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "received_at",
+              "displayName": "received_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1152,
+        -544
+      ],
+      "id": "4a8facd4-d5a3-456c-9541-45d188413eb3",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "iwX1QcfIpYTuiANy",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schema": {
+          "__rl": true,
+          "value": "public",
+          "mode": "list",
+          "cachedResultName": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "Smart-Lead-Bot",
+          "mode": "list",
+          "cachedResultName": "Smart-Lead-Bot"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "name": "={{ $('Code in Python').item.json.name }}",
+            "email": "={{ $('Code in Python').item.json.email }}",
+            "phone": "={{ $('Code in Python').item.json.phone }}",
+            "company": "={{ $('Code in Python').item.json.company }}",
+            "service_interest": "={{ $('Code in Python').item.json.service_interest }}",
+            "message": "={{ $('Code in Python').item.json.message }}",
+            "source": "={{ $('Code in Python').item.json.source }}",
+            "service_category": "={{ JSON.parse($json.content.parts[0].text).service_category }}",
+            "language": "={{ JSON.parse($json.content.parts[0].text).language }}",
+            "summary": "={{ JSON.parse($json.content.parts[0].text).summary }}",
+            "intent_score": "={{ JSON.parse($json.content.parts[0].text).intent_score }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "company",
+              "displayName": "company",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "service_interest",
+              "displayName": "service_interest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "source",
+              "displayName": "source",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "service_category",
+              "displayName": "service_category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "intent_score",
+              "displayName": "intent_score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "language",
+              "displayName": "language",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "received_at",
+              "displayName": "received_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.7,
+      "position": [
+        -1168,
+        -784
+      ],
+      "id": "de70b533-ab67-4058-9708-b88ab51edfa7",
+      "name": "Insert rows in a table",
+      "credentials": {
+        "postgres": {
+          "id": "QvdS6c7Q275MfUit",
+          "name": "Postgres account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "language": "pythonNative",
+        "pythonCode": "seen_emails = set()\nclean_items = []\n\nfor item in _items:\n    json_data = item.get('json', {})\n    \n    # 1. تفكيك body لو كانت البيانات من Webhook\n    body_data = json_data.get('body', {}) if isinstance(json_data.get('body'), dict) else {}\n    \n    # 2. تجميع وحصد الحقول بغض النظر عن المصدر (Gmail أو Webhook)\n    name = json_data.get('name') or body_data.get('name', '')\n    email = json_data.get('email') or body_data.get('email', '')\n    phone = json_data.get('phone') or body_data.get('phone', '')\n    company = json_data.get('company') or body_data.get('company', '')\n    message = json_data.get('message') or json_data.get('snippet') or body_data.get('message', '')\n    source = json_data.get('source') or body_data.get('source', 'unknown')\n    received_at = json_data.get('received_at') or body_data.get('received_at', '')\n\n    clean_email = str(email).strip().lower()\n\n    # 3. فحص التكرار بناءً على الإيميل\n    if clean_email:\n        if clean_email in seen_emails:\n            continue  # يتجاهل الإيميل المكرر تماماً\n        seen_emails.add(clean_email)\n\n    # 4. بناء عنصر موحد وبسيط جداً بدون أجهزة متداخلة\n    unified_item = {\n        \"name\": name,\n        \"email\": clean_email,\n        \"phone\": phone,\n        \"company\": company,\n        \"service_interest\": json_data.get('service_interest') or body_data.get('service_interest', ''),\n        \"message\": message,\n        \"source\": source,\n        \"received_at\": received_at\n    }\n\n    clean_items.append({'json': unified_item})\n\nreturn clean_items"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2192,
+        -624
+      ],
+      "id": "68a8bcff-49a4-41d0-b077-aa5cb59c8ccb",
+      "name": "Code in Python"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-3.1-flash-lite",
+          "mode": "list",
+          "cachedResultName": "models/gemini-3.1-flash-lite"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert Sales Lead Analyst. Your task is to analyze incoming lead data and provide a structured JSON response.\n\n### INSTRUCTIONS:\n1. Detect Language: Identify if it's 'AR' (Arabic) or 'EN' (English).\n2. Category: Assign one of these categories: [Web Development, Mobile App, AI & Automation, Data Analytics, Cybersecurity, UI/UX, General Inquiry].\n3. Intent Score: Assign a score from 1 to 5 based on the following RUBRIC:\n   - 1 (Just looking): Casual greetings, empty messages, or \"just browsing.\"\n   - 2 (Low Interest): General questions about services without specific project details.\n   - 3 (Moderate Interest): Inquiring about a specific service (cost/features) but lacking full scope.\n   - 4 (High Interest): Clear project scope mentioned, potential for a real partnership.\n   - 5 (Ready to Buy): Highly specific requirements, clear intent to start immediately, or urgent project timeline.\n4. Summary: Write a concise one-line summary in the SAME language as the input.\n5. Handling Missing Data: If the message is empty or unclear, default to 'General Inquiry' with an Intent Score of 1 \n\n### OUTPUT FORMAT:\nReturn ONLY a valid JSON object. No conversational text.\nExample: {\"service_category\": \"Web Development\", \"intent_score\": 5, \"language\": \"AR\", \"summary\": \"طلب تطوير نظام إدارة مبيعات\"}\n\n\n\nClassify the following lead:\nName:{{ $('Code in Python').item.json.name }} \nEmail: {{ $('Code in Python').item.json.email }}}\nPhone: {{ $('Code in Python').item.json.phone}}\nCompany: {{ $('Code in Python').item.json.company }}\nService Interest: {{ $('Code in Python').item.json.service_interest }}\nMessage:  {{ $('Code in Python').item.json.message }}\nSource: {{ $('Code in Python').item.json.source }}",
+              "role": "model"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        -1552,
+        -592
+      ],
+      "id": "f9d78e6c-e42f-453a-a4d2-90077920bff4",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "EFVao93tWyIdzLmo",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail Trigger": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Code in Python",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Duplicate lead - stopped",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in Python": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Insert rows in a table",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "b6799d64-4c9e-41d8-8ccb-ea538ac21b8a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cb9d6c6db60381fa7e4bdcf7bb88db6d7c27b02cf1164ab6ab070b19199608df"
+  },
+  "nodeGroups": [],
+  "id": "AZIXMzqUprec6Uth",
+  "tags": []
+}
