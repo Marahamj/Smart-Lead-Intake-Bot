@@ -84,12 +84,18 @@ Gmail Trigger ──► Edit Fields1 ──────────┘          
 - **Data Processing:** Python
 - **Integrations:** Google Sheets API, Gmail API, Telegram Bot API
 
+---
+### 🧪 Testing
+For detailed verification logs and test results, please refer to: [TESTING.md](TESTING.md)
 
 ## 📸 Workflow Visualization
 
 Here is the visual overview of the Smart Lead Intake Bot pipeline in n8n:
+Here is the complete visual overview of the Smart Lead Intake Bot pipeline in n8n:
 
-![n8n Workflow Diagram](workflow-diagram.png)
+![n8n Workflow Diagram](https://github.com/Marahamj/Smart-Lead-Intake-Bot/blob/main/image.png?raw=true)
+
+
 
 
 
