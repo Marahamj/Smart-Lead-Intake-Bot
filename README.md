@@ -92,6 +92,12 @@ Gmail Trigger ──► Edit Fields1 ──────────┘          
 - `README.md`: Project documentation.
 
 
+**workflow canva**
+<img width="1631" height="307" alt="image" src="https://github.com/user-attachments/assets/e5377ca5-3f8f-404b-af59-82117e3e5f31" />
+
+
+
+
 
 
 
